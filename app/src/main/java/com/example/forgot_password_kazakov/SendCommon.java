@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
 
+import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -21,10 +22,11 @@ public class SendCommon extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... Voids){
         try {
-            Document Response = Jsoup.connect(Url + "?Email="+TbEmail.getText())
+            String responseBody = Jsoup.connect(Url + "?Email=" + tbEmail.getText().toString())
                     .ignoreContentType(true)
-                    .get();
-            Code = Response.text();
+                    .execute()
+                    .body();
+            Code = responseBody;
         }catch (IOException e){
             Log.e("Errors", e.getMessage());
         }
