@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.Forgot_password_kazakov" parent="Base.Theme.Forgot_password_kazakov" />
+
+    <style name="Theme.Forgot_password_kazakov" parent="Base.Theme.Forgot_password_kazakov">
+        <item name="colorPrimaryDark">#48B2E7</item>
+    </style>
 </resources>
