@@ -202,7 +202,7 @@
                 android:textSize="12sp"
                 android:gravity="right"
                 android:visibility="gone"
-                android:onClick="SendCode"
+                android:onClick="OnSendMail"
                 android:importantForAccessibility="yes"
                 android:contentDescription="Кнопка повторной отправки кода подтверждения" />
 

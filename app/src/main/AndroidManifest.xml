@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".erifivation"
+            android:name=".Verification"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -10,7 +10,7 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 
 public class SendCommon extends AsyncTask<Void, Void, Void> {
-    public String Url = "http:192.168.0.109:5000/api/CommonController/Send", Code;
+    public String Url = "http://192.168.0.109:5000/api/CommonController/Send", Code;
     public EditText tbEmail;
     CallbackResponse CallbackResponse, CallbackError;
     public SendCommon(EditText tbEmail, CallbackResponse callbackResponse, CallbackResponse callbackError){
@@ -22,13 +22,22 @@ public class SendCommon extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... Voids){
         try {
-            String responseBody = Jsoup.connect(Url + "?Email=" + tbEmail.getText().toString())
+            String email = tbEmail.getText().toString();
+            if (email.isEmpty()) {
+                Log.e("Errors", "Email is empty");
+                return null;
+            }
+
+            String responseBody = Jsoup.connect(Url + "?Email=" + email)
                     .ignoreContentType(true)
+                    .timeout(10000) // Добавьте таймаут
                     .execute()
                     .body();
             Code = responseBody;
-        }catch (IOException e){
+            Log.d("SendCommon", "Response: " + responseBody);
+        } catch (IOException e){
             Log.e("Errors", e.getMessage());
+            Code = null;
         }
         return null;
     }

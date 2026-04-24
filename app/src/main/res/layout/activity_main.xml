@@ -26,7 +26,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:background="@drawable/button_back"
-            android:contentDescription="Назад" />
+            android:contentDescription="Назад"
+            android:onClick="OnBack"/>
     </LinearLayout>
 
     <LinearLayout
@@ -75,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:onClick="SendMessage"
             android:text="Отправить" />
 
     </LinearLayout>

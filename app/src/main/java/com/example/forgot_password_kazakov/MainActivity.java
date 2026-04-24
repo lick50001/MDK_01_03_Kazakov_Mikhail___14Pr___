@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private SendCommon sendCommon;
 
     private DialogInterface.OnCancelListener alertDialogCancelListener = dialogInterface -> {
-        Intent verificationIntent = new Intent(context, erifivation.class);
+        Intent verificationIntent = new Intent(context, Verification.class);
         verificationIntent.putExtra("Code", code);
         verificationIntent.putExtra("Email", tbUserEmail.getText().toString());
         startActivity(verificationIntent);
@@ -115,5 +115,9 @@ public class MainActivity extends AppCompatActivity {
             sendCommon.cancel(true);
             Log.d(TAG, "AsyncTask отменён при уничтожении активности.");
         }
+    }
+
+    public void OnBack(View view) {
+        finish();
     }
 }

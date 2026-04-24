@@ -1,13 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Forgot_password_kazakov" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Forgot_password_kazakov" parent="Theme.AppCompat.Light.DarkActionBar">
     </style>
 
-    <style name="Theme.Forgot_password_kazakov" parent="Base.Theme.Forgot_password_kazakov" />
-
     <style name="Theme.Forgot_password_kazakov" parent="Base.Theme.Forgot_password_kazakov">
+        <item name="colorPrimary">#48B2E7</item>
         <item name="colorPrimaryDark">#48B2E7</item>
+        <item name="colorAccent">#48B2E7</item>
     </style>
 </resources>
