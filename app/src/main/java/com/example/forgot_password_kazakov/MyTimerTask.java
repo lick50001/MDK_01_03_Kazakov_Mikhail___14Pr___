@@ -22,14 +22,14 @@ public class MyTimerTask extends TimerTask {
     public void run() {
         time--;
 
-        if (time <= 0) {
+        if (time == 0) {
             this.cancel();
         }
 
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String second = time > 9 ? String.valueOf(time) : "0" + time;
+                String second = time > 10 ? String.valueOf(time) : "0"+String.valueOf(time);
                 tvText.setText("00:" + second);
 
                 if (time == 0) {

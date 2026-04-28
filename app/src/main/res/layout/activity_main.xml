@@ -67,8 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:hint="xyz@gmail.com"
-            android:inputType="textEmailAddress" />
+            android:hint="xyz@gmail.com" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/bth_send"
