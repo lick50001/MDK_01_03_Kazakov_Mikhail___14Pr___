@@ -7,32 +7,28 @@ import android.widget.TextView;
 import java.util.TimerTask;
 
 public class MyTimerTask extends TimerTask {
-
-    public int time = 30;
-    public Activity activity;
+    public int Time = 30;
+    public Activity Activity;
     public TextView tvText, tvSendMail;
 
     public MyTimerTask(Activity activity, TextView tvText, TextView tvSendMail) {
-        this.activity = activity;
+        this.Activity = activity;
         this.tvText = tvText;
         this.tvSendMail = tvSendMail;
     }
 
     @Override
     public void run() {
-        time--;
+        Time--;
+        if (Time == 0) this.cancel();
 
-        if (time == 0) {
-            this.cancel();
-        }
-
-        activity.runOnUiThread(new Runnable() {
+        Activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String second = time > 10 ? String.valueOf(time) : "0"+String.valueOf(time);
-                tvText.setText("00:" + second);
+                String Second = Time > 10 ? String.valueOf(Time) : "0" + String.valueOf(Time);
+                tvText.setText("00:" + Second);
 
-                if (time == 0) {
+                if (Time == 0) {
                     tvText.setVisibility(View.GONE);
                     tvSendMail.setVisibility(View.VISIBLE);
                 }

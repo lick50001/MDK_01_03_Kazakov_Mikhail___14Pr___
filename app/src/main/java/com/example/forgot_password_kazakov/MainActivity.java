@@ -3,18 +3,22 @@ package com.example.forgot_password_kazakov;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.regex.Pattern;
 
@@ -29,52 +33,45 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        BackgroundRed = ContextCompat.getDrawable(this, R.drawable.edittext_backround_red);
+        Background = ContextCompat.getDrawable(this, R.drawable.edittext_backround);
         tbUserEmail = findViewById(R.id.user_email);
-        this.Context = this;
+        SendCommon = new SendCommon(tbUserEmail, CallbackResponseCode, CallbackResponseError);
+        Context = this;
 
-        // Инициализация SendCommon с callback
-        SendCommon = new SendCommon(tbUserEmail,
-                code -> {
-                    // Успешный ответ от сервера
-                    runOnUiThread(() -> {
-                        Toast.makeText(this, "Код отправлен: " + code, Toast.LENGTH_SHORT).show();
-                    });
-                },
-                error -> {
-                    // Ошибка
-                    runOnUiThread(() -> {
-                        Toast.makeText(this, "Ошибка: " + error, Toast.LENGTH_SHORT).show();
-                    });
-                }
-        );
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
     public Boolean IsValid(String Value) {
-        Pattern sPattern = Pattern.compile( "^\\w{2,20}@\\w{2,10}\\.\\w{2,4}$");
+        Pattern sPattern = Pattern.compile("\\w{1,20}.*@\\w{1,10}\\.\\w{1,4}$");
         return sPattern.matcher(Value).matches();
     }
 
     public void SendMessage(View view) {
-        String UserEmail = tbUserEmail.getText().toString();
+        String UserEmail = String.valueOf(tbUserEmail.getText());
         if (!IsValid(UserEmail)) {
-            tbUserEmail.setBackgroundColor(Color.RED);
-            Toast.makeText(this, "Не верно введён Email.", Toast.LENGTH_SHORT).show();
+            tbUserEmail.setBackground(BackgroundRed);
+            Toast.makeText(this, "Не верно введён Email", Toast.LENGTH_SHORT).show();
         } else {
-            tbUserEmail.setBackgroundColor(Color.GREEN);
-            if (SendCommon != null && SendCommon.getStatus() != AsyncTask.Status.RUNNING) {
+            tbUserEmail.setBackground(Background);
+            if (SendCommon.getStatus() != AsyncTask.Status.RUNNING)
                 SendCommon.execute();
-            }
         }
     }
 
-    DialogInterface.OnCancelListener AlertDialogCancelListener = new DialogInterface.OnCancelListener() {
+    DialogInterface.OnCancelListener AlterDialogCancelListener = new DialogInterface.OnCancelListener() {
         @Override
-        public void onCancel(DialogInterface dialogInterface) {
+        public void onCancel(DialogInterface dialog) {
             Intent Verification = new Intent(Context, Verification.class);
-            Verification.putExtra( "Code", Code);
-            Verification.putExtra( "Email", tbUserEmail.getText());
+            Verification.putExtra("Code", Code);
+            Verification.putExtra("Email", tbUserEmail.getText());
             startActivity(Verification);
         }
     };
@@ -82,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     CallbackResponse CallbackResponseError = new CallbackResponse() {
         @Override
         public void returner(String Response) {
-            Toast.makeText(Context,  "Ошибка сервера", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Context, "Ошибка запроса", Toast.LENGTH_SHORT).show();
             SendCommon = new SendCommon(tbUserEmail, CallbackResponseCode, CallbackResponseError);
         }
     };
@@ -93,15 +90,11 @@ public class MainActivity extends AppCompatActivity {
             Code = Response;
 
             AlertDialog.Builder AlertDialogBuilder = new AlertDialog.Builder(Context);
-            ConstraintLayout View = (ConstraintLayout) getLayoutInflater().inflate(R.layout.check_email, null);
+            ConstraintLayout View = (ConstraintLayout)getLayoutInflater().inflate(R.layout.check_email, null);
             AlertDialogBuilder.setView(View);
-            AlertDialogBuilder.setOnCancelListener(AlertDialogCancelListener);
+            AlertDialogBuilder.setOnCancelListener(AlterDialogCancelListener);
             AlertDialog Dialog = AlertDialogBuilder.create();
             Dialog.show();
         }
-    };;
-
-    public void OnBack(View view) {
-        onBackPressed(); // или finish();
-    }
+    };
 }
